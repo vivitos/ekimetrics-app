@@ -1,0 +1,8 @@
+<ul class="list-unstyled">
+  <li *ngFor="let hero of heroes" (click)="onSelect(hero)">
+    <span>{{hero.id}}</span>
+    <span>{{hero.name}}</span>
+  </li>
+
+  <app-hero-detail [hero]="selectedHero"></app-hero-detail>
+</ul>
