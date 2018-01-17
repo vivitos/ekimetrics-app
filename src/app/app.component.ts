@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import * as D3 from 'd3';
 
 @Component({
   selector: 'app-root',
