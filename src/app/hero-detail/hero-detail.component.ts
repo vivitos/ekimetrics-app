@@ -40,12 +40,10 @@ export class HeroDetailComponent implements OnInit {
 
   getLastWeekComments(): void {
 
-    console.log(moment().subtract(7, 'days').format());
     console.log(filter(this.post.comments, (comment) => {
       return moment(comment.created_date).isSameOrAfter(moment().subtract(7, 'days').format());
-    }))
-    // console.log(groupBy([{ id: '1' }, { id: '1' }, { id: '2' }, { id: '4' }], 'id'))
-    // console.log(moment().format());
+    }));
+
   }
 
 }
