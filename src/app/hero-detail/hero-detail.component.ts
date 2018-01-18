@@ -1,10 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Hero } from '../hero';
+import * as moment from 'moment';
+import * as groupBy from 'lodash.groupby';
+import * as filter from 'lodash.filter';
 
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { HeroService } from '../hero.service';
+import { Post, Comment } from '../hero.service';
 
 @Component({
   selector: 'app-hero-detail',
@@ -12,7 +16,8 @@ import { HeroService } from '../hero.service';
   styleUrls: ['./hero-detail.component.css']
 })
 export class HeroDetailComponent implements OnInit {
-  @Input() hero: any;
+  @Input() post: Post;
+  lastWeekComments: Comment[];
 
   constructor(
     private route: ActivatedRoute,
@@ -21,13 +26,26 @@ export class HeroDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getComments();
+    this.getPost();
   }
 
-  getComments(): void {
+  getPost(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.heroService.getComments(id)
-      .subscribe(hero => this.hero = hero);
+    this.heroService.getPost(id)
+      .subscribe(post => {
+        this.post = post;
+        this.getLastWeekComments();
+      });
+  }
+
+  getLastWeekComments(): void {
+
+    console.log(moment().subtract(7, 'days').format());
+    console.log(filter(this.post.comments, (comment) => {
+      return moment(comment.created_date).isSameOrAfter(moment().subtract(7, 'days').format());
+    }))
+    // console.log(groupBy([{ id: '1' }, { id: '1' }, { id: '2' }, { id: '4' }], 'id'))
+    // console.log(moment().format());
   }
 
 }

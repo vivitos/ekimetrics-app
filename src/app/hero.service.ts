@@ -11,7 +11,13 @@ import 'rxjs/add/operator/catch';
 
 export interface Post {
   id: Number,
-  name: String
+  name: String,
+  comments: Comment[]
+}
+
+export interface Comment {
+  id: Number,
+  created_at: Date
 }
 
 @Injectable()
@@ -32,23 +38,8 @@ export class HeroService {
     };
   }
 
-  // getHeroes(): Observable<Hero[]> {
-  //   return this.http.get<Hero[]>(this.heroesUrl).pipe(
-  //     tap(heroes => this.log(`fetched heroes`)),
-  //     catchError(this.handleError('getHeroes', []))
-  //   );
-  // }
-
-  // getHero(id: number): Observable<Hero> {
-  //   const url = `${this.heroesUrl}/${id}`;
-  //   return this.http.get<Hero>(url).pipe(
-  //     tap(_ => this.log(`fetched hero id=${id}`)),
-  //     catchError(this.handleError<Hero>(`getHero id=${id}`))
-  //   );
-  // }
-
   getPosts(): Observable<Post[]> {
-    const url = `${this.productHuntApiUrl}/posts`
+    const url = `${this.productHuntApiUrl}/posts/all`
     return this.http.get(url, {
       headers: {
         Authorization: 'Bearer 0cc596d1977552483bdadb48b0e861199b6d258e24be8b67cc39ab126327409e'
@@ -63,15 +54,15 @@ export class HeroService {
     }).catch(this.handleError(`posts`, []));
   }
 
-  getComments(postId: Number): Observable<any> {
-    const url = `${this.productHuntApiUrl}/comments?search[post_id]=${postId}`
+  getPost(postId: Number): Observable<Post> {
+    const url = `${this.productHuntApiUrl}/posts/${postId}`;
     return this.http.get(url, {
       headers: {
         Authorization: 'Bearer 0cc596d1977552483bdadb48b0e861199b6d258e24be8b67cc39ab126327409e'
       }
     }).map((res: any) => {
-      return res.comments;
-    }).catch(this.handleError(`posts`, []));
+      return res.post;
+    }).catch(this.handleError(`post`, []));
   }
 
 }
