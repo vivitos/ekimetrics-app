@@ -1,14 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Hero } from '../hero';
 import * as moment from 'moment';
-import * as groupBy from 'lodash.groupby';
-import * as filter from 'lodash.filter';
+import * as _ from 'lodash';
 
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { HeroService } from '../hero.service';
 import { Post, Comment } from '../hero.service';
+import { last } from '@angular/router/src/utils/collection';
+import { leave } from '@angular/core/src/profile/wtf_impl';
 
 @Component({
   selector: 'app-hero-detail',
@@ -16,8 +17,9 @@ import { Post, Comment } from '../hero.service';
   styleUrls: ['./hero-detail.component.css']
 })
 export class HeroDetailComponent implements OnInit {
-  @Input() post: Post;
-  lastWeekComments: Comment[];
+  //Array with day by day comments count  
+  aggregateComments = [];
+  post: Post;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,15 +36,25 @@ export class HeroDetailComponent implements OnInit {
     this.heroService.getPost(id)
       .subscribe(post => {
         this.post = post;
-        this.getLastWeekComments();
+        this.getLastComments(7);
       });
   }
 
-  getLastWeekComments(): void {
+  getLastComments(days: number): void {
+    //I generate an array with the desired number of days to generate my graph
+    _.forEach(_.times(days, Number), (day) => {
 
-    console.log(filter(this.post.comments, (comment) => {
-      return moment(comment.created_date).isSameOrAfter(moment().subtract(7, 'days').format());
-    }));
+      //For each days, we calculate the number of comments after this date
+      let commentsAfter = _.filter(this.post.comments, comment => {
+        return moment(comment.created_at).isAfter(moment().endOf('day').subtract(day, 'days').format());
+      })
+
+      //The number of comments for a special day is the total number of comments minus all comments posted after this date
+      this.aggregateComments.push({
+        date: moment().startOf('day').subtract(day, 'days').format(),
+        value: this.post.comments.length - commentsAfter.length
+      })
+    });
 
   }
 
