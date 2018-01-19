@@ -38,12 +38,13 @@ export class HeroService {
     };
   }
 
-  getPosts(): Observable<Post[]> {
+  getPosts(page): Observable<Post[]> {
     const url = `${this.productHuntApiUrl}/posts/all`
     return this.http.get(url, {
       headers: {
         Authorization: 'Bearer 0cc596d1977552483bdadb48b0e861199b6d258e24be8b67cc39ab126327409e'
-      }
+      },
+      params: { page: page || 1000 }
     }).map((res: any) => {
       return res.posts.map(post => {
         return {
