@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 export class DashboardComponent implements OnInit {
   posts: any;
   page: number;
+  loading: boolean;
 
   constructor(
     private heroService: HeroService,
@@ -21,13 +22,17 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.page = this.getPage() || 1;
+    this.page = this.getPage() ? this.getPage() : 1;
     this.getPosts(this.page);
   }
 
   getPosts(page): void {
+    this.loading = true;
     this.heroService.getPosts(page)
-      .subscribe(posts => this.posts = posts);
+      .subscribe(posts => {
+        this.loading = false;
+        this.posts = posts;
+      });
   }
 
   getPage(): number {
@@ -35,7 +40,14 @@ export class DashboardComponent implements OnInit {
   }
 
   goNext(): void {
-    let url = this.router.createUrlTree(['/dashboard'], { queryParams: { page: this.page++ } }).toString();
-    this.location.go(url);
+    this.page++;
+    this.router.navigate(['/dashboard'], { queryParams: { page: this.page } });
+    this.getPosts(this.page);
+  }
+
+  goPrevious(): void {
+    this.page--;
+    this.router.navigate(['/dashboard'], { queryParams: { page: this.page } });
+    this.getPosts(this.page);
   }
 }

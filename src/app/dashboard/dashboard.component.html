@@ -1,9 +1,12 @@
-<ul *ngIf="posts" class="list-unstyled">
-  <li *ngFor="let post of posts">
-    <a routerLink="/detail/{{post.id}}">
-      <span>{{ post.id }}</span>
-      <span>{{ post.name }}</span>
-    </a>
-  </li>
-</ul>
-<button (click)="goNext()">GO NEXT PAGE</button>
+<div class="container-fluid" *ngIf="posts">
+  <ul class="list-unstyled">
+    <li *ngFor="let post of posts">
+      <a routerLink="/detail/{{post.id}}">
+        <span>{{ post.id }}</span>
+        <span>{{ post.name }}</span>
+      </a>
+    </li>
+  </ul>
+  <button class="btn" [disabled]="!page || page === 1 || loading" (click)="goPrevious()">GO PREVIOUS PAGE</button>
+  <button class="btn" [disabled]="loading" (click)="goNext()">GO NEXT PAGE</button>
+</div>
