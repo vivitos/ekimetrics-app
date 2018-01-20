@@ -16,6 +16,7 @@ export class PostDetailComponent implements OnInit {
   //Array with day by day comments count  
   aggregateComments = [];
   post: Post;
+  loading: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,9 +28,11 @@ export class PostDetailComponent implements OnInit {
   }
 
   getPost (): void {
+    this.loading = true;
     const id = +this.route.snapshot.paramMap.get('id');
     this.productHuntService.getPost(id)
       .subscribe(post => {
+        this.loading = false
         this.post = post;
         this.getLastComments(7);
       });
