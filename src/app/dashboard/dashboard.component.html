@@ -1,12 +1,27 @@
-<div class="container-fluid" *ngIf="posts">
-  <ul class="list-unstyled">
-    <li *ngFor="let post of posts">
+<div class="container-fluid dashboard">
+  <h1 class="text-uppercase">Dashboard</h1>
+  <div class="sk-cube-grid" *ngIf="loading">
+    <div class="sk-cube sk-cube1"></div>
+    <div class="sk-cube sk-cube2"></div>
+    <div class="sk-cube sk-cube3"></div>
+    <div class="sk-cube sk-cube4"></div>
+    <div class="sk-cube sk-cube5"></div>
+    <div class="sk-cube sk-cube6"></div>
+    <div class="sk-cube sk-cube7"></div>
+    <div class="sk-cube sk-cube8"></div>
+    <div class="sk-cube sk-cube9"></div>
+  </div>
+  <div class="row" *ngIf="posts && !loading">
+    <div class="col-xs-4" *ngFor="let post of posts">
       <a routerLink="/detail/{{post.id}}">
-        <span>{{ post.id }}</span>
         <span>{{ post.name }}</span>
+        <span>by {{ post.author }}</span>
       </a>
-    </li>
+    </div>
+  </div>
+  <ul class="pager">
+    <li><button class="btn" [disabled]="!page || page === 1 || loading" (click)="goPrevious()">Previous</button></li>
+    <li><button class="btn" [disabled]="loading" (click)="goNext()">Next</button></li>
   </ul>
-  <button class="btn" [disabled]="!page || page === 1 || loading" (click)="goPrevious()">GO PREVIOUS PAGE</button>
-  <button class="btn" [disabled]="loading" (click)="goNext()">GO NEXT PAGE</button>
+  <span>Page: {{ page }}</span>
 </div>

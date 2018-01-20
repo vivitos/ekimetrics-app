@@ -12,6 +12,7 @@ import 'rxjs/add/operator/catch';
 export interface Post {
   id: Number,
   name: String,
+  auhtor: String,
   comments: Comment[]
 }
 
@@ -38,24 +39,28 @@ export class HeroService {
     };
   }
 
-  getPosts(page): Observable<Post[]> {
+  getPosts (page, per_page?): Observable<Post[]> {
     const url = `${this.productHuntApiUrl}/posts/all`
     return this.http.get(url, {
       headers: {
         Authorization: 'Bearer 0cc596d1977552483bdadb48b0e861199b6d258e24be8b67cc39ab126327409e'
       },
-      params: { page: page || 1000 }
+      params: {
+        page: page || 1,
+        per_page: per_page || 12
+      }
     }).map((res: any) => {
       return res.posts.map(post => {
         return {
           name: post.name,
           id: post.id,
+          author: post.user.username
         }
       })
     }).catch(this.handleError(`posts`, []));
   }
 
-  getPost(postId: Number): Observable<Post> {
+  getPost (postId: Number): Observable<Post> {
     const url = `${this.productHuntApiUrl}/posts/${postId}`;
     return this.http.get(url, {
       headers: {
