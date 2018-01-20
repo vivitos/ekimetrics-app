@@ -1,11 +1,29 @@
-<div class="container-fluid dashboard">
+<div class="container-fluid">
   <h1 class="text-uppercase">Dashboard</h1>
   <loader *ngIf="loading"></loader>
   <div class="row" *ngIf="posts && !loading">
     <div class="col-xs-4" *ngFor="let post of posts">
-      <a routerLink="/detail/{{post.id}}">
-        <span>{{ post.name }}</span>
-        <span>by {{ post.author }}</span>
+      <a class="post" routerLink="/detail/{{post.id}}">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="media">
+              <div class="media-body media-middle">
+                <p class="media-heading">{{ post.name }}</p>
+                <p>by {{ post.author }}</p>
+              </div>
+              <div class="media-right media-middle">
+                <img [src]="post.userImage" />
+              </div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <span>{{ post.tagline }}</span>
+          </div>
+          <div class="panel-footer">
+            <span>Topics :</span>
+            <span *ngFor="let topic of post.topics">{{ topic }}</span>
+          </div>
+        </div>
       </a>
     </div>
   </div>
