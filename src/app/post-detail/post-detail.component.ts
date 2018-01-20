@@ -37,7 +37,7 @@ export class PostDetailComponent implements OnInit {
 
   getLastComments (days: number): void {
     //I generate an array with the desired number of days to generate my graph
-    _.forEach(_.times(days, Number), (day) => {
+    _.forEach(_.times(days, Number).reverse(), (day) => {
 
       //For each days, we calculate the number of comments after this date
       let commentsAfter = _.filter(this.post.comments, comment => {
@@ -48,7 +48,7 @@ export class PostDetailComponent implements OnInit {
       this.aggregateComments.push({
         date: moment().startOf('day').subtract(day, 'days').format(),
         value: this.post.comments.length - commentsAfter.length
-      })
+      });
     });
 
   }

@@ -9,6 +9,7 @@ import { PostDetailComponent } from './post-detail/post-detail.component';
 import { LineChartComponent } from './line-chart/line-chart.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoaderComponent } from './loader/loader.component';
 
 
 import { HttpClientModule } from '@angular/common/http';
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     PostDetailComponent,
     DashboardComponent,
-    LineChartComponent
+    LineChartComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
