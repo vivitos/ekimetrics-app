@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Hero } from '../hero';
-import { HeroService } from '../hero.service';
+import { ProductHuntService } from '../product-hunt.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,37 +13,36 @@ export class DashboardComponent implements OnInit {
   loading: boolean;
 
   constructor(
-    private heroService: HeroService,
+    private productHuntService: ProductHuntService,
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location
   ) { }
 
-  ngOnInit() {
+  ngOnInit () {
     this.page = this.getPage() ? this.getPage() : 1;
     this.getPosts(this.page);
   }
 
-  getPosts(page): void {
+  getPosts (page): void {
     this.loading = true;
-    this.heroService.getPosts(page)
+    this.productHuntService.getPosts(page)
       .subscribe(posts => {
         this.loading = false;
         this.posts = posts;
       });
   }
 
-  getPage(): number {
+  getPage (): number {
     return parseInt(this.route.snapshot.queryParamMap.get('page'));
   }
 
-  goNext(): void {
+  goNext (): void {
     this.page++;
     this.router.navigate(['/dashboard'], { queryParams: { page: this.page } });
     this.getPosts(this.page);
   }
 
-  goPrevious(): void {
+  goPrevious (): void {
     this.page--;
     this.router.navigate(['/dashboard'], { queryParams: { page: this.page } });
     this.getPosts(this.page);

@@ -1,46 +1,41 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Hero } from '../hero';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 
-import { HeroService } from '../hero.service';
-import { Post, Comment } from '../hero.service';
-import { last } from '@angular/router/src/utils/collection';
-import { leave } from '@angular/core/src/profile/wtf_impl';
+import { ProductHuntService } from '../product-hunt.service';
+import { Post, Comment } from '../product-hunt.service';
 
 @Component({
-  selector: 'app-hero-detail',
-  templateUrl: './hero-detail.component.html',
-  styleUrls: ['./hero-detail.component.css']
+  selector: 'post-detail',
+  templateUrl: './post-detail.component.html',
+  styleUrls: ['./post-detail.component.css']
 })
-export class HeroDetailComponent implements OnInit {
+export class PostDetailComponent implements OnInit {
   //Array with day by day comments count  
   aggregateComments = [];
   post: Post;
 
   constructor(
     private route: ActivatedRoute,
-    private heroService: HeroService,
-    private location: Location
+    private productHuntService: ProductHuntService,
   ) { }
 
-  ngOnInit() {
+  ngOnInit () {
     this.getPost();
   }
 
-  getPost(): void {
+  getPost (): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.heroService.getPost(id)
+    this.productHuntService.getPost(id)
       .subscribe(post => {
         this.post = post;
         this.getLastComments(7);
       });
   }
 
-  getLastComments(days: number): void {
+  getLastComments (days: number): void {
     //I generate an array with the desired number of days to generate my graph
     _.forEach(_.times(days, Number), (day) => {
 

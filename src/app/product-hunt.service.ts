@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Hero } from './hero';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/observable/of';
-import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Http, Response } from '@angular/http';
-import { catchError, map, tap } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
@@ -22,7 +19,7 @@ export interface Comment {
 }
 
 @Injectable()
-export class HeroService {
+export class ProductHuntService {
 
   constructor(private http: HttpClient) { }
 
