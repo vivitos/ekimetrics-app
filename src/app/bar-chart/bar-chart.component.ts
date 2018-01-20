@@ -7,16 +7,13 @@ import * as d3Array from 'd3-array';
 import * as d3Axis from 'd3-axis';
 
 @Component({
-    selector: 'line-chart',
+    selector: 'bar-chart',
     template: `<svg width="900" height="500"></svg>`,
-    styleUrls: ['./line-chart.component.css']
+    styleUrls: ['./bar-chart.component.css']
 })
-export class LineChartComponent implements OnInit {
+export class BarChartComponent implements OnInit {
 
     @Input() comments: any[];
-
-    title: string = 'D3.js with Angular 2!';
-    subtitle: string = 'Line Chart';
 
     private width: number;
     private height: number;
