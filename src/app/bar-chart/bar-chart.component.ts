@@ -81,7 +81,8 @@ export class BarChartComponent implements OnChanges {
             .attr("x", (d) => this.x(new Date(d.date)))
             .attr("y", (d) => this.y(d.value))
             .attr("width", this.x.bandwidth())
-            .attr("height", (d) => this.height - this.y(d.value));
+            .attr("height", (d) => this.height - this.y(d.value))
+            .attr("fill", "#B640EC");
     }
 
 }
