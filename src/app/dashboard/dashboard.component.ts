@@ -36,14 +36,8 @@ export class DashboardComponent implements OnInit {
     return parseInt(this.route.snapshot.queryParamMap.get('page'));
   }
 
-  goNext (): void {
-    this.page++;
-    this.router.navigate(['/dashboard'], { queryParams: { page: this.page } });
-    this.getPosts(this.page);
-  }
-
-  goPrevious (): void {
-    this.page--;
+  changePage (page: number): void {
+    this.page = page;
     this.router.navigate(['/dashboard'], { queryParams: { page: this.page } });
     this.getPosts(this.page);
   }

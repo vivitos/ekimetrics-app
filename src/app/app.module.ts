@@ -1,8 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ProductHuntService } from './product-hunt.service';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSliderModule } from '@angular/material/slider';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import 'hammerjs';
 
+import { ProductHuntService } from './product-hunt.service';
 
 import { AppComponent } from './app.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
@@ -10,9 +14,7 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoaderComponent } from './loader/loader.component';
-
-
-import { HttpClientModule } from '@angular/common/http';
+import { PostComponent } from './post/post.component';
 
 
 @NgModule({
@@ -21,13 +23,16 @@ import { HttpClientModule } from '@angular/common/http';
     PostDetailComponent,
     DashboardComponent,
     BarChartComponent,
-    LoaderComponent
+    LoaderComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
+    NgbModule.forRoot(),
+    MatSliderModule
   ],
   providers: [ProductHuntService],
   bootstrap: [AppComponent]

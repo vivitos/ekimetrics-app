@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
 
 import * as D3 from 'd3';
 import * as d3 from 'd3-selection';
@@ -9,9 +9,9 @@ import * as d3Axis from 'd3-axis';
 @Component({
     selector: 'bar-chart',
     template: `<svg width="900" height="500"></svg>`,
-    styleUrls: ['./bar-chart.component.css']
+    styleUrls: ['./bar-chart.component.scss']
 })
-export class BarChartComponent implements OnInit {
+export class BarChartComponent implements OnChanges {
 
     @Input() comments: any[];
 
@@ -26,7 +26,8 @@ export class BarChartComponent implements OnInit {
 
     constructor() { }
 
-    ngOnInit () {
+    ngOnChanges (changes: SimpleChanges) {
+        this.comments = changes['comments'].currentValue;
         this.initSvg();
         this.initAxis();
         this.drawAxis();
@@ -34,6 +35,7 @@ export class BarChartComponent implements OnInit {
     }
 
     private initSvg () {
+        if (this.svg) this.svg.selectAll("*").remove();
         this.svg = d3.select("svg");
         this.width = +this.svg.attr("width") - this.margin.left - this.margin.right;
         this.height = +this.svg.attr("height") - this.margin.top - this.margin.bottom;

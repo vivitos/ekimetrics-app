@@ -1,4 +1,15 @@
-<loader *ngIf="loading"></loader>
-<div *ngIf="post">
-  <bar-chart [comments]="aggregateComments"></bar-chart>
+<div class="container-fluid">
+  <loader *ngIf="loading"></loader>
+  <div *ngIf="post">
+    <h1>"{{ post.name }}" comments Bar Chart</h1>
+    <div class="row">
+      <div class="col-xs-2">
+        <p>Choose a time period for the bar chart :</p>
+        <mat-slider thumbLabel min="5" max="28" step="1" value="{{period}}" (change)="updatePeriod($event)"></mat-slider>
+      </div>
+      <div class="col-xs-10">
+        <bar-chart [comments]="aggregateComments"></bar-chart>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,35 +1,10 @@
-<div class="container-fluid">
-  <h1 class="text-uppercase">Dashboard</h1>
+<div class="container-fluid dashboard">
+  <h1 class="title text-uppercase">POSTS</h1>
   <loader *ngIf="loading"></loader>
   <div class="row" *ngIf="posts && !loading">
     <div class="col-xs-4" *ngFor="let post of posts">
-      <a class="post" routerLink="/detail/{{post.id}}">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <div class="media">
-              <div class="media-body media-middle">
-                <p class="media-heading">{{ post.name }}</p>
-                <p>by {{ post.author }}</p>
-              </div>
-              <div class="media-right media-middle">
-                <img [src]="post.userImage" />
-              </div>
-            </div>
-          </div>
-          <div class="panel-body">
-            <span>{{ post.tagline }}</span>
-          </div>
-          <div class="panel-footer">
-            <span>Topics :</span>
-            <span *ngFor="let topic of post.topics">{{ topic }}</span>
-          </div>
-        </div>
-      </a>
+      <post [post]="post"></post>
     </div>
   </div>
-  <ul class="pager">
-    <li><button class="btn" [disabled]="!page || page === 1 || loading" (click)="goPrevious()">Previous</button></li>
-    <li><button class="btn" [disabled]="loading" (click)="goNext()">Next</button></li>
-  </ul>
-  <span>Page: {{ page }}</span>
+  <ngb-pagination [collectionSize]="100" [(page)]="page" [maxSize]="5" [rotate]="true" [disabled]="loading" (pageChange)="changePage($event)"></ngb-pagination>
 </div>

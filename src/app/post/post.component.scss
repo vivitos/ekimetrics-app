@@ -1,0 +1,20 @@
+.post {
+    text-decoration: none;
+    color: black;
+    .panel {
+        &-heading {
+            background-color: black;
+            color: white;
+            .media {
+                &-heading {
+                    font-weight: bold;
+                }
+            }
+        }
+        &-footer, &-body {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    }
+}

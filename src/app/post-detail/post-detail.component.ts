@@ -10,13 +10,14 @@ import { Post, Comment } from '../product-hunt.service';
 @Component({
   selector: 'post-detail',
   templateUrl: './post-detail.component.html',
-  styleUrls: ['./post-detail.component.css']
+  styleUrls: ['./post-detail.component.scss']
 })
 export class PostDetailComponent implements OnInit {
   //Array with day by day comments count  
   aggregateComments = [];
   post: Post;
   loading: boolean;
+  period: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,6 +25,7 @@ export class PostDetailComponent implements OnInit {
   ) { }
 
   ngOnInit () {
+    this.period = 7;
     this.getPost();
   }
 
@@ -34,13 +36,15 @@ export class PostDetailComponent implements OnInit {
       .subscribe(post => {
         this.loading = false
         this.post = post;
-        this.getLastComments(7);
+        this.getLastComments();
       });
   }
 
-  getLastComments (days: number): void {
+  getLastComments (): void {
+    this.aggregateComments = [];
+
     //I generate an array with the desired number of days to generate my graph
-    _.forEach(_.times(days, Number).reverse(), (day) => {
+    _.forEach(_.times(this.period, Number).reverse(), (day) => {
 
       //For each days, we calculate the number of comments after this date
       let commentsAfter = _.filter(this.post.comments, comment => {
@@ -53,7 +57,11 @@ export class PostDetailComponent implements OnInit {
         value: this.post.comments.length - commentsAfter.length
       });
     });
+  }
 
+  updatePeriod (period: any): void {
+    this.period = period.value;
+    this.getLastComments();
   }
 
 }

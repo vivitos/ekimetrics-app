@@ -12,7 +12,7 @@ export interface Post {
   userImage: String,
   comments: Comment[],
   tagline: String,
-  topics: String[]
+  topics: String
 }
 
 export interface Comment {
@@ -56,7 +56,7 @@ export class ProductHuntService {
           author: post.user.username,
           userImage: post.user.image_url['50px'],
           tagline: post.tagline,
-          topics: post.topics.map(topic => topic.name)
+          topics: post.topics.map(topic => topic.name).join('/')
         }
       })
     }).catch(this.handleError(`posts`, []));
