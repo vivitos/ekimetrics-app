@@ -5,18 +5,20 @@ import { HttpClient } from '@angular/common/http'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+//Post Product Hunt Interface
 export interface Post {
-  id: Number,
-  name: String,
-  auhtor: String,
-  userImage: String,
-  comments: Comment[],
-  tagline: String,
-  topics: String
+  id: Number, //Post ID
+  name: String, //Post Name
+  auhtor: String, //Post Author
+  userImage: String, //User image
+  comments: Comment[], //All post's comments
+  tagline: String,  //Post Tagline
+  topics: String //All topics split by '/'
 }
 
+//Post comment Product Hunt Interface
 export interface Comment {
-  id: Number
+  id: Number //Comment ID
 }
 
 @Injectable()

@@ -6,5 +6,5 @@
       <post [post]="post"></post>
     </div>
   </div>
-  <ngb-pagination [collectionSize]="1000" [(page)]="page" [maxSize]="5" [rotate]="true" [disabled]="loading" (pageChange)="changePage($event)"></ngb-pagination>
+  <pagination previousText="&lsaquo;" nextText="&rsaquo;" [maxSize]="5" [totalItems]="1000" [(ngModel)]="page" (pageChanged)="changePage($event)"></pagination>
 </div>

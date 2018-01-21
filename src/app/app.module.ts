@@ -2,8 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { MatSliderModule } from '@angular/material/slider';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import 'hammerjs';
 
 import { ProductHuntService } from './product-hunt.service';
@@ -31,7 +31,7 @@ import { PostComponent } from './post/post.component';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgbModule.forRoot(),
+    PaginationModule.forRoot(),
     MatSliderModule
   ],
   providers: [ProductHuntService],
