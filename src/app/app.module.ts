@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
-import { MatSliderModule } from '@angular/material/slider';
-import 'hammerjs';
+import { MatSliderModule } from '@angular/material/slider'; // Angular Material Slider
+import 'hammerjs'; // Required for Angular Material Slider
 
 import { ProductHuntService } from './product-hunt.service';
 

@@ -11,31 +11,44 @@ import * as d3Axis from 'd3-axis';
     template: `<svg width="900" height="500"></svg>`,
     styleUrls: ['./bar-chart.component.scss']
 })
+
+/**
+ * Bar Chart Component
+ * Generate bar chart representing comments number evolution for a given period
+ */
 export class BarChartComponent implements OnChanges {
 
-    @Input() comments: any[];
+    //Object array of days and comments for each of this days
+    @Input() commentsAggregation: any[];
 
-    private width: number;
-    private height: number;
-    private margin = { top: 20, right: 20, bottom: 100, left: 40 };
+    private width: number; //SVG width
+    private height: number; //SVG height
+    private margin = { top: 20, right: 20, bottom: 100, left: 40 }; //SVG Margins
 
-    private x: any;
-    private y: any;
-    private svg: any;
-    private g: any;
+    private x: any; //D3 x axis
+    private y: any; //D3 y axis
+    private svg: any; //D3 svg
+    private g: any; //SVG g element
 
     constructor() { }
 
+    /**
+     * If parent component changes commentsAggregation, renew the SVG
+     * @param changes Input changes
+     */
     ngOnChanges (changes: SimpleChanges) {
-        this.comments = changes['comments'].currentValue;
+        this.commentsAggregation = changes['commentsAggregation'].currentValue;
         this.initSvg();
         this.initAxis();
         this.drawAxis();
         this.drawBars();
     }
 
+    /**
+     * Initialize all element of SVG
+     */
     private initSvg () {
-        if (this.svg) this.svg.selectAll("*").remove();
+        if (this.svg) this.svg.selectAll("*").remove(); //If SVG already exists, we remove all elements
         this.svg = d3.select("svg");
         this.width = +this.svg.attr("width") - this.margin.left - this.margin.right;
         this.height = +this.svg.attr("height") - this.margin.top - this.margin.bottom;
@@ -43,13 +56,19 @@ export class BarChartComponent implements OnChanges {
             .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
     }
 
+    /**
+     * Initialize X and Y axis
+     */
     private initAxis () {
-        this.x = d3Scale.scaleBand().rangeRound([0, this.width]).padding(0.1);
+        this.x = d3Scale.scaleBand().rangeRound([0, this.width]).padding(0.1); //X as a set of discrete values
         this.y = d3Scale.scaleLinear().rangeRound([this.height, 0]);
-        this.x.domain(this.comments.map((d) => D3.isoParse(d.date)));
-        this.y.domain([0, d3Array.max(this.comments, (d) => d.value)]);
+        this.x.domain(this.commentsAggregation.map((d) => D3.isoParse(d.date)));
+        this.y.domain([0, d3Array.max(this.commentsAggregation, (d) => d.value)]);
     }
 
+    /**
+     * Draw X and Y axis
+     */
     private drawAxis () {
         this.g.append("g")
             .attr("class", "axis axis--x")
@@ -63,8 +82,8 @@ export class BarChartComponent implements OnChanges {
             .style("text-anchor", "end");
         this.g.append("g")
             .attr("class", "axis axis--y")
-            .call(d3Axis.axisLeft(this.y).ticks(this.comments[this.comments.length - 1].value, ""))
-            .append("text")
+            .call(d3Axis.axisLeft(this.y).ticks(this.commentsAggregation[this.commentsAggregation.length - 1].value, "")) // Max y values is the last days comments number
+            .append("text") // TODO : Fix not displayed
             .attr("class", "axis-title")
             .attr("transform", "rotate(-90)")
             .attr("y", 6)
@@ -73,16 +92,19 @@ export class BarChartComponent implements OnChanges {
             .text("Comments");
     }
 
+    /**
+     * Draw Bar Chart
+     */
     private drawBars () {
         this.g.selectAll(".bar")
-            .data(this.comments)
+            .data(this.commentsAggregation) //Used Data
             .enter().append("rect")
             .attr("class", "bar")
-            .attr("x", (d) => this.x(new Date(d.date)))
-            .attr("y", (d) => this.y(d.value))
-            .attr("width", this.x.bandwidth())
+            .attr("x", (d) => this.x(new Date(d.date))) //Convert comments date using x axis function
+            .attr("y", (d) => this.y(d.value)) //Convert comments comment number using y axis function
+            .attr("width", this.x.bandwidth()) //Set bar width as x axis bandwidth function
             .attr("height", (d) => this.height - this.y(d.value))
-            .attr("fill", "#B640EC");
+            .attr("fill", "#B640EC"); //Color bars
     }
 
 }

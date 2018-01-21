@@ -6,6 +6,11 @@ import { Post } from '../product-hunt.service'
     templateUrl: './post.component.html',
     styleUrls: ['./post.component.scss']
 })
+
+/**
+ * Post component
+ * Panel displaying major informations in a panel for a given post
+ */
 export class PostComponent implements OnInit {
     @Input() post: Post;
 

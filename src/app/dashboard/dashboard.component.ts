@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductHuntService } from '../product-hunt.service';
+import { ProductHuntService, Post } from '../product-hunt.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -7,10 +7,14 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
+
+/**
+ * Dashboard Component with all posts list
+ */
 export class DashboardComponent implements OnInit {
-  posts: any;
-  page: number;
-  loading: boolean;
+  posts: Post[]; //All posts for page
+  page: number; //Page number
+  loading: boolean; //True if waiting for API response, false otherwise
 
   constructor(
     private productHuntService: ProductHuntService,
@@ -18,26 +22,40 @@ export class DashboardComponent implements OnInit {
     private router: Router,
   ) { }
 
+  /**
+   * Initialize page and posts
+   */
   ngOnInit () {
     this.page = this.getPage() ? this.getPage() : 1;
     this.getPosts(this.page);
   }
 
-  getPosts (page): void {
+  /**
+   * Get all posts for a given page
+   * @param page Page number
+   */
+  getPosts (page: number): void {
     this.loading = true;
-    this.productHuntService.getPosts(page)
+    this.productHuntService.getPosts({ page })
       .subscribe(posts => {
         this.loading = false;
         this.posts = posts;
       });
   }
 
+  /**
+   * Return page query params
+   */
   getPage (): number {
     return parseInt(this.route.snapshot.queryParamMap.get('page'));
   }
 
-  changePage (page: number): void {
-    this.page = page;
+  /**
+   * Change page: get posts for the new page and refresh query param page
+   * @param pagination Pagination object output return by ngx-bootstrap PaginationModule
+   */
+  changePage (pagination: any): void {
+    this.page = pagination.page;
     this.router.navigate(['/dashboard'], { queryParams: { page: this.page } });
     this.getPosts(this.page);
   }

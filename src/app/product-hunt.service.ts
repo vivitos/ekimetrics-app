@@ -21,14 +21,20 @@ export interface Comment {
   id: Number //Comment ID
 }
 
+//Product Hunt API Service
 @Injectable()
 export class ProductHuntService {
 
   constructor(private http: HttpClient) { }
 
-  private productHuntApiUrl = 'https://api.producthunt.com/v1';
-  private developer_token = '0cc596d1977552483bdadb48b0e861199b6d258e24be8b67cc39ab126327409e'
+  private productHuntApiUrl = 'https://api.producthunt.com/v1'; //Product Hunt API Url
+  private developer_token = '0cc596d1977552483bdadb48b0e861199b6d258e24be8b67cc39ab126327409e' //Product Hunt Developer Token generate on API Dashboard
 
+  /**
+   * Basic Angular Handler
+   * @param operation
+   * @param result
+   */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
@@ -40,15 +46,22 @@ export class ProductHuntService {
     };
   }
 
-  getPosts (page, perPage?): Observable<Post[]> {
+  /**
+   * Retreive all posts from Product Hunt
+   * @param params Query params object: {
+   *    page: number, //Page number
+   *    perPage: number, //Posts per page (max. 50)
+   * }
+   */
+  getPosts (params): Observable<Post[]> {
     const url = `${this.productHuntApiUrl}/posts/all`
     return this.http.get(url, {
       headers: {
         Authorization: `Bearer ${this.developer_token}`
       },
       params: {
-        page: page || 1,
-        per_page: perPage || 12
+        page: params.page || 1,
+        per_page: params.perPage || 12
       }
     }).map((res: any) => {
       return res.posts.map(post => {
@@ -64,6 +77,10 @@ export class ProductHuntService {
     }).catch(this.handleError(`posts`, []));
   }
 
+  /**
+   * Retreive post details for a given ID
+   * @param postId Post Id of the requested post
+   */
   getPost (postId: Number): Observable<Post> {
     const url = `${this.productHuntApiUrl}/posts/${postId}`;
     return this.http.get(url, {

@@ -4,11 +4,11 @@
     <h1>"{{ post.name }}" comments Bar Chart</h1>
     <div class="row">
       <div class="col-xs-3 panel post-detail-period">
-        <p class="post-detail-period-text">Time period for the bar chart (days) :</p>
+        <p class="post-detail-period-text">Time period for the bar chart (days from today) :</p>
         <mat-slider thumbLabel min="5" max="28" step="1" value="{{period}}" (change)="updatePeriod($event)"></mat-slider>
       </div>
       <div class="col-xs-9">
-        <bar-chart [comments]="aggregateComments"></bar-chart>
+        <bar-chart [commentsAggregation]="aggregateComments"></bar-chart>
       </div>
     </div>
   </div>

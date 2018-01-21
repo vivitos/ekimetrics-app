@@ -7,6 +7,10 @@ import { Component, OnInit, Input } from '@angular/core';
     styleUrls: ['./loader.component.scss']
 })
 
+/**
+ * Loader animation component
+ * CSS loading Spinner
+ */
 export class LoaderComponent implements OnInit {
     constructor() { }
 

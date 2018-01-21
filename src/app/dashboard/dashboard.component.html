@@ -6,5 +6,5 @@
       <post [post]="post"></post>
     </div>
   </div>
-  <pagination previousText="&lsaquo;" nextText="&rsaquo;" [maxSize]="5" [totalItems]="1000" [(ngModel)]="page" (pageChanged)="changePage($event)"></pagination>
+  <pagination [hidden]="loading" previousText="&lsaquo;" nextText="&rsaquo;" [maxSize]="5" [totalItems]="1000" [(ngModel)]="page" (pageChanged)="changePage($event)"></pagination>
 </div>

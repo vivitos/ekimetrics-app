@@ -13,22 +13,27 @@ import { Post, Comment } from '../product-hunt.service';
   styleUrls: ['./post-detail.component.scss']
 })
 export class PostDetailComponent implements OnInit {
-  //Array with day by day comments count  
-  aggregateComments = [];
-  post: Post;
-  loading: boolean;
-  period: number;
+  aggregateComments = []; //Array with day by day comments count
+  post: Post; // Post object containing all post information
+  loading: boolean; // True if waiting for API response, false otherwise
+  period: number; // Days from now to generate SVG
 
   constructor(
     private route: ActivatedRoute,
     private productHuntService: ProductHuntService,
   ) { }
 
+  /**
+   * Initialize period to 7 et get post informations
+   */
   ngOnInit () {
     this.period = 7;
     this.getPost();
   }
 
+  /**
+   * Get post information with the given post id URL
+   */
   getPost (): void {
     this.loading = true;
     const id = +this.route.snapshot.paramMap.get('id');
@@ -40,6 +45,9 @@ export class PostDetailComponent implements OnInit {
       });
   }
 
+  /**
+   * Assign last comments aggregation based on period (in days) to aggregateComments
+   */
   getLastComments (): void {
     this.aggregateComments = [];
 
@@ -59,6 +67,10 @@ export class PostDetailComponent implements OnInit {
     });
   }
 
+  /**
+   * Update time period and get last comments for this period
+   * @param period Object return by slider change event with the chosen value
+   */
   updatePeriod (period: any): void {
     this.period = period.value;
     this.getLastComments();
